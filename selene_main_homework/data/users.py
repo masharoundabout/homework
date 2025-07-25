@@ -1,5 +1,5 @@
 import dataclasses
-from enum import EnumDict
+from enum import Enum
 
 @dataclasses.dataclass()
 class Users:
@@ -13,7 +13,7 @@ class Users:
     birthday_day: str
     subject: str
     picture: str
-    hobby: EnumDict
+    hobby: Enum
     addr: str
     state: str
     city: str
