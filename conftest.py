@@ -10,7 +10,7 @@ def open_browser():
     options = Options()
     selenoid_capabilities = {
         "browserName": "chrome",
-        "browserVersion": "100.0",
+        "browserVersion": "126.0",
         "selenoid:options": {
             "enableVNC": True,
             "enableVideo": True
@@ -18,7 +18,7 @@ def open_browser():
     }
     options.capabilities.update(selenoid_capabilities)
     driver = webdriver.Remote(
-        command_executor=f"http://164.92.65.210:4444/wd/hub",
+        command_executor="http://164.92.65.210:4444/wd/hub",
         options=options
     )
 
