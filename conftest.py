@@ -1,4 +1,7 @@
+import os
+
 import pytest
+from dotenv import load_dotenv
 from selenium import webdriver
 from selene import Browser, Config
 from selenium.webdriver.chrome.options import Options
@@ -14,10 +17,11 @@ def browser():
         'enableVNC': True,
         'enableVideo': True
     })
-    chrome_options.enable_bidi = True
 
+    load_dotenv()
+    remote_drv = os.getenv('REMOTE_DRV')
     driver = webdriver.Remote(
-        command_executor='http://164.92.65.210:4444/wd/hub',
+        command_executor= remote_drv,
         options=chrome_options
     )
 
