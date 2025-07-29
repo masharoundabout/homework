@@ -2,6 +2,7 @@ import pytest
 from selenium import webdriver
 from selene import Browser, Config
 from selenium.webdriver.chrome.options import Options
+from utils import attach
 
 
 @pytest.fixture
@@ -13,7 +14,7 @@ def browser():
         'enableVNC': True,
         'enableVideo': True
     })
-    chrome_options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
+    chrome_options.enable_bidi = True
 
     driver = webdriver.Remote(
         command_executor='http://164.92.65.210:4444/wd/hub',
@@ -24,5 +25,10 @@ def browser():
     browser.config.base_url = 'https://demoqa.com'
 
     yield browser
+
+    attach.add_screenshot(browser)
+    #attach.add_logs(browser)
+    attach.add_html(browser)
+    attach.add_video(browser)
 
     browser.quit()
