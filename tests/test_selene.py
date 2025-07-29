@@ -1,10 +1,13 @@
-from applicaton import app
+from applicaton import Application
+
 from selene_main_homework.data.hobbies import Hobbies
 from selene_main_homework.data.users import Users
 from resource import picture_path
 
-def test_submit_form():
+def test_submit_form(browser):
+    app = Application(browser)
     user = Users(first_name = 'Test', last_name = 'Test', email = 'test@qa.qa', gender = 'Male', telephone = '9179996543', birthday_month = 'March',  birthday_year = '1992', birthday_day = '17', subject= 'Computer Science', hobby= Hobbies.SPORT.value, picture='test.jpg', addr = '1110 Park Ave Apt 5R', state = 'NCR', city = 'Delhi')
+
     #arrange
     app.registration_page.open()
 
@@ -35,15 +38,15 @@ def test_submit_form():
             f'{user.addr}',
             f'{user.state} {user.city}')
 
-def test_submit_form_shorter():
-
+def test_submit_form_shorter(browser):
+    app = Application(browser)
     user = Users(first_name = 'Test', last_name = 'Test', email = 'test@qa.qa', gender = 'Male', telephone = '9179996543', birthday_month = 'March',  birthday_year = '1992', birthday_day = '17', subject= 'Computer Science', hobby= Hobbies.SPORT.value, picture='test.jpg', addr = '1110 Park Ave Apt 5R', state = 'NCR', city = 'Delhi')
 
-    # arrange
+    #arrange
     app.registration_page.open()
 
-    # act
+    #act
     app.registration_page.fill_form_user_input(user)
 
-    # assert
+    #assert
     app.registration_page.should_have_submitted_user_input(user)

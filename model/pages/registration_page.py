@@ -1,92 +1,92 @@
 import os
 
 import allure
-from selene import browser, have, command
+from selene import Browser, have, command
 
 from resource import picture_path
 
 
 class RegistrationPage:
-    def __init__(self):
-        pass
+    def __init__(self, browser: Browser):
+        self.browser = browser
 
     @allure.feature("Fill registration form")
     @allure.step('Open registration page')
     def open(self):
-        browser.open('/automation-practice-form')
+        self.browser.open('/automation-practice-form')
 
     @allure.feature("Fill registration form")
     @allure.step('Type first name')
     def type_first_name(self, value):
-        browser.element('#firstName').type(value)
+        self.browser.element('#firstName').type(value)
 
     @allure.feature("Fill registration form")
     @allure.step('Type last name')
     def type_last_name(self, value):
-        browser.element('#lastName').type(value)
+        self.browser.element('#lastName').type(value)
 
     @allure.feature("Fill registration form")
     @allure.step('Type email')
     def type_email(self, value):
-        browser.element('#userEmail').type(value)
+        self.browser.element('#userEmail').type(value)
 
     @allure.feature("Fill registration form")
     @allure.step('Select gender')
     def select_gender(self, value):
-        browser.all('[for^=gender-radio]').element_by(have.text(value)).perform(command.js.scroll_into_view)
-        browser.all('[for^=gender-radio]').element_by(have.text(value)).click()
+        self.browser.all('[for^=gender-radio]').element_by(have.text(value)).perform(command.js.scroll_into_view)
+        self.browser.all('[for^=gender-radio]').element_by(have.text(value)).click()
 
     @allure.feature("Fill registration form")
     @allure.step('Type telephone')
     def type_telephone(self, value):
-        browser.element('#userNumber').type(value)
+        self.browser.element('#userNumber').type(value)
 
     @allure.feature("Fill registration form")
     @allure.step('Select birthday')
     def select_birthday(self, month_value, year_value, day_value):
-        browser.element('#dateOfBirthInput').click()
-        browser.element('.react-datepicker__month-select').send_keys(month_value)
-        browser.element('.react-datepicker__year-select').send_keys(year_value)
-        browser.element(f'.react-datepicker__day--0{day_value}').click()
+        self.browser.element('#dateOfBirthInput').click()
+        self.browser.element('.react-datepicker__month-select').send_keys(month_value)
+        self.browser.element('.react-datepicker__year-select').send_keys(year_value)
+        self.browser.element(f'.react-datepicker__day--0{day_value}').click()
 
     @allure.feature("Fill registration form")
     @allure.step('Type subject')
     def type_subject(self, value):
-        browser.element('#subjectsInput').type(value).press_enter()
+        self.browser.element('#subjectsInput').type(value).press_enter()
 
     @allure.feature("Fill registration form")
     @allure.step('Select hobby')
     def select_hobbie(self, value):
-        browser.all('[for^=hobbies-checkbox]').element_by(have.text(value)).perform(command.js.scroll_into_view)
-        browser.all('[for^=hobbies-checkbox]').element_by(have.text(value)).click()
+        self.browser.all('[for^=hobbies-checkbox]').element_by(have.text(value)).perform(command.js.scroll_into_view)
+        self.browser.all('[for^=hobbies-checkbox]').element_by(have.text(value)).click()
 
     @allure.feature("Fill registration form")
     @allure.step('Upload picture')
     def upload_picture(self, value):
-        browser.element('#uploadPicture').send_keys(
+        self.browser.element('#uploadPicture').send_keys(
             os.path.abspath(value))
 
     @allure.feature("Fill registration form")
     @allure.step('Type address')
     def type_address(self, value):
-        browser.element('#currentAddress').type(value)
+        self.browser.element('#currentAddress').type(value)
 
     @allure.feature("Fill registration form")
     @allure.step('Select state')
     def select_state(self, value):
-        browser.element('#state').click()
-        browser.all('[id^=react-select][id*=option]').element_by(have.text(value)).click()
+        self.browser.element('#state').click()
+        self.browser.all('[id^=react-select][id*=option]').element_by(have.text(value)).click()
 
     @allure.feature("Fill registration form")
     @allure.step('Select city')
     def select_city(self, value):
-        browser.element('#city').click()
-        browser.all('[id^=react-select][id*=option]').element_by(have.text(value)).click()
+        self.browser.element('#city').click()
+        self.browser.all('[id^=react-select][id*=option]').element_by(have.text(value)).click()
 
     @allure.feature("Fill registration form")
     @allure.step('Submit form')
     def submit(self):
-        browser.element('#submit').submit()
+        self.browser.element('#submit').submit()
 
     @allure.feature("Fill registration form")
     @allure.step('Fill form without dataclass')
@@ -126,7 +126,7 @@ class RegistrationPage:
     @allure.feature("Fill registration form")
     @allure.step('Check submission without dataclass')
     def should_have_submitted(self, name, email, gender, telephone, birthday, subject, hobbie, picture, addr, state):
-        browser.element('.table').all('td').even.should(
+        self.browser.element('.table').all('td').even.should(
             have.exact_texts(
                 f'{name}',
                 f'{email}',
@@ -144,7 +144,7 @@ class RegistrationPage:
     @allure.feature("Fill registration form")
     @allure.step('Check submission with dataclass')
     def should_have_submitted_user_input(self, user):
-        browser.element('.table').all('td').even.should(
+        self.browser.element('.table').all('td').even.should(
             have.exact_texts(
                 f'{user.first_name} {user.last_name}',
                 f'{user.email}',
