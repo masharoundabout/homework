@@ -3,3 +3,4 @@ selene~=2.0.0rc9
 pytest~=8.4.1
 python-dotenv
 allure-python-commons
+requests

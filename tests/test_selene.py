@@ -1,8 +1,14 @@
+import json
+
+import allure
+from allure_commons.types import AttachmentType
+
 from applicaton import Application
 
 from selene_main_homework.data.hobbies import Hobbies
 from selene_main_homework.data.users import Users
 from resource import picture_path
+import requests
 
 def test_submit_form(browser):
     app = Application(browser)
@@ -50,3 +56,16 @@ def test_submit_form_shorter(browser):
 
     #assert
     app.registration_page.should_have_submitted_user_input(user)
+
+def test_rest_api_homework():
+    #arrange
+
+    #act
+    response = requests.post(f'https://demowebshop.tricentis.com/addproducttocart/catalog/{13}/{1}/{1}')
+    body = response.json()
+
+    #assert
+    assert response.status_code == 200
+    assert body['success'] == True
+    assert body['message'] == 'The product has been added to your \u003ca href=\"/cart\"\u003eshopping cart\u003c/a\u003e'
+    allure.attach(body=json.dumps(response.json()), name='Response', attachment_type=AttachmentType.TEXT, extension='txt')
